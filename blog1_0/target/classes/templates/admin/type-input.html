@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head(~{::title})">
+        <meta charset="UTF-8"/>
+        <!--移动端预览设置-->
+        <meta name="viewport" content="width=decive-width,initial-scare=1.0"/>
+        <title>类型发布</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+        <link rel="stylesheet" href="../../static/css/me.css">
+        <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
+    </head>
+<body>
+    <!--导航-->
+    <nav th:replace="admin/_fragments::menu(2)" class="ui inverted attached segment m-padded-tb-min">
+
+
+        <div class="ui container">
+          <div class="ui inverted secondary stackable menu ">
+            <h2 class="ui green header item">管理后台</h2>
+            <a herf="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>博客</a>
+            <a herf="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+            <a herf="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+            <div class="right menu">
+                <div class="item ui dropdown">
+                    <div class="text">
+                        <img src="../../static/image/cat1.jpg" alt="" class="avatar ui image">
+                        huhuhuni
+                    </div>
+                    <i class="icon dropdown"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+        </div>
+        <a href="#" class="ui menu toggle button icon black m-right-top m-mobile-show"><i class="sidebar icon"></i></a>
+    </nav>
+
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+              <a href="#" th:href="@{/admin/type/input}" class="active  teal item">发布</a>
+              <a href="#" th:href="@{/admin/types}" class=" item">列表</a>
+          </div>
+        </div>
+    </div>
+     <!--中间内容-->
+     <div class="m-padded-tb-big m-container-small">
+       <div class="ui container">
+           <form action="#" method="post"  class="ui form" th:object="${type}"
+                 th:action="*{id}==null ? @{/admin/types} : @{/admin/types/{id}(id=*{id})}">
+               <input type="hidden" name="id" th:value="*{id}">
+               <div class="required field">
+                         <div class="ui left input labeled">
+                             <label class="ui teal basic label">名称</label>
+                             <input type="text" class="ui input" name="name" placeholder="分类名称" th:value="*{name}">
+                         </div> 
+                     </div>
+
+                     <div class="ui error message"></div>
+               <!--/*/
+                    <div class="ui negative message" th:if="${#fields.hasErrors('name')}"  >
+                       <i class="close icon"></i>
+                       <div class="header">验证失败</div>
+                       <p th:errors="*{name}">提交信息不符合规则</p>
+                    </div>
+                /*/-->
+
+                     <div class="ui right aligned container ">
+                         <button type="button" class="ui button" onclick="window.history.go(-1);">返回</button>
+                         <button  class="ui button submit teal">提交</button>
+                     </div>
+           </form>
+       </div>
+     </div>
+     <!--底部-->
+     <footer th:replace="admin/_fragments::footer" class="ui inverted vertical segment m-padded-tb-masive">
+        <div class="ui center aligned container">
+             <div class="ui inverted divided stackable grid">
+                 <div class="three wide column">
+                    <div class="ui inverted link list">
+                        <div class="item">
+                          <img src="../../static/image/猫咪.jpg" class="ui rounded image" style="width: 10em;height: 10em;"/>
+                        </div>
+                    </div>
+                     </div>
+                <div class="three wide column">
+                    <h4 class="ui inverted header" >最新博客</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">用户故事（User Story）</a>
+                        <a href="#" class="item">用户故事（User Story）</a>
+                        <a href="#" class="item">用户故事（User Story）</a>
+                    </div>
+                </div>
+                 <div class="three wide column">
+                    <h4 class="ui inverted header">联系我</h4>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">QQ:1349601654</a>
+                    </div>
+                 </div>
+                 <div class="seven wide column">
+                    <h4 class="ui inverted header">Blog</h4>
+                    <p>这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
+                 </div>
+             </div>
+             <div class="ui inverted section divider">
+             </div>
+             <p>Copyright©2020</p>
+           
+         </div>
+         
+     </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+<script>
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+    $('.ui.form').form({
+        fields:{
+            name:{
+                identifier:'name',
+                rules:[{
+                    type:'empty',
+                    prompt:'请输入类型名称'
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>
