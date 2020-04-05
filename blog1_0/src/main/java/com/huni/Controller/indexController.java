@@ -25,35 +25,23 @@ public class indexController {
     @Autowired
     private TagService tagService;
     @GetMapping("/")
-    public String blogs(Model model, @PageableDefault(size =4,sort={"id"},direction = Sort.Direction.DESC ) Pageable pageable){
+    public String blogs(Model model, @PageableDefault(size =4,sort={"updateTime"},direction = Sort.Direction.DESC ) Pageable pageable){
               model.addAttribute("page",blogService.selectBlog(pageable));
               model.addAttribute("types",typeService.listTypeTop(6));
               model.addAttribute("tags",tagService.listTagTop(10));
               model.addAttribute("recommendBlogs",blogService.listRecommendBlogTop(8));
-        System.out.println("-----------index--------------");
+       // System.out.println("-----------index--------------");
         return "index";
     }
 
-    @GetMapping("/blog")
-    public String blog() {
-        System.out.println("-----------Blog--------------");
-        return "Blog";
-    }
-
-    @GetMapping("/tags")
-    public String trags() {
-        System.out.println("-----------tags--------------");
-        return "tags";
-    }
-
-    @GetMapping("/type")
-    public String type() {
-        System.out.println("-----------Blog--------------");
-        return "Type";
+    @GetMapping("/blog/{id}")
+    public String blog(@PathVariable Long id,Model model) {
+        model.addAttribute("blog",blogService.getAndConvert(id));
+        return "blog";
     }
 
     @PostMapping("/search")
-    public String search(Model model, @PageableDefault(size =5,sort={"id"},direction = Sort.Direction.DESC ) Pageable pageable,@RequestParam String query) {
+    public String search(Model model, @PageableDefault(sort={"id"},direction = Sort.Direction.DESC ) Pageable pageable,@RequestParam String query) {
         model.addAttribute("page",blogService.selectBlog(query,pageable));
         model.addAttribute("query",query);
         return "search";

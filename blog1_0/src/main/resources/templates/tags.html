@@ -41,88 +41,70 @@
                          <h3 class="ui teal header">标签</h3>
                      </div>
                      <div class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2> 个
+                        共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${#arrays.length(tags)}"> 14 </h2> 个
                      </div>
                 </div>
             </div>
 
             <div class="ui attached segment">
                 <div class="ui segment blue">
-                    <a href="#" target="_blank" class="ui blue left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
+                    <a href="#" th:href="@{/tag/{id}(id=${tag.id})}"  class="ui left pointing label large m-margin-tb-tiny" th:classappend="${tag.id == activeTagId} ? 'blue'" th:each="tag : ${tags}">
+                       <span th:text="${tag.name}">标签名</span><div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
                     </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui  left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui  left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-                    <a href="#" target="_blank" class="ui left pointing label large m-margin-tb-tiny">
-                        方法论<div class="detail">23</div>
-                    </a>
-            </div>
+                </div>
             </div>
             <div class="ui segment teal">
-                <div class="ui mobile reversed stackable grid">
-                    <div class="eleven wide column">
-                        <h3 class="ui header">健康计划</h3>
-                        <p class="m-text">健康是指一个人在身体、精神和社会等方面都处于良好的状态。健康包括两个方面的内容：一是主要脏器无疾病，身体形态发育良好，体形均匀，人体各系统具有良好的生理功能，有较强的身体活动能力和劳动能力，这是对健康最基本的要求；二是对疾病的抵抗能力较强，能够适应环境变化，各种生理刺激以及致病因素对身体的作用。传统的健康观是“无病即健康”，现代人的健康观是整体健康，世界卫生组织提出“健康不仅是躯体没有疾病，还要具备心理健康、社会适应良好和有道德”。因此，现代人的健康内容包括：躯体健康、心理健康、心灵健康、社会健康、智力健康、道德健康、环境健康等。健康是人的基本权利。健康是人生的第一财富。</p>
-                        <div class="ui grid">
-                            <div class="eleven wide column">
-                                <div class="ui horizontal link list ">
-                                    <div class="item">
-                                        <img src="../static/image/cat1.jpg" th:src="@{/image/cat1.jpg}"class="ui avater" style="height:20px;width:20px;"></img>
-                                    </div>
-                                    <div class="item">
-                                        <div class="content"><a herf="#" class="header">huhuhuni</a>
+                <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
+                    <div class="ui mobile reversed stackable grid">
+                        <div class="eleven wide column">
+                            <h3 class="ui header" ><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">健康计划</a></h3>
+                            <p class="m-text" th:text="|${blog.description}......|">健康是指一个人在身体、精神和社会等方面都处于良好的状态。健康包括两个方面的内容：一是主要脏器无疾病，身体形态发育良好，体形均匀，人体各系统具有良好的生理功能，有较强的身体活动能力和劳动能力，这是对健康最基本的要求；二是对疾病的抵抗能力较强，能够适应环境变化，各种生理刺激以及致病因素对身体的作用。传统的健康观是“无病即健康”，现代人的健康观是整体健康，世界卫生组织提出“健康不仅是躯体没有疾病，还要具备心理健康、社会适应良好和有道德”。因此，现代人的健康内容包括：躯体健康、心理健康、心灵健康、社会健康、智力健康、道德健康、环境健康等。健康是人的基本权利。健康是人生的第一财富。</p>
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="eleven wide column">
+                                        <div class="ui horizontal link list ">
+                                            <div class="item">
+                                                <img src="../static/image/fox.jpg" th:src="@{${blog.user.avatar}}" class="ui avater" style="height:20px;width:20px;"></img>
+                                            </div>
+                                            <div class="item">
+                                                <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">huhuhuni</a>
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-2-5</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i><span th:text="${blog.view}">1234</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item">
-                                      <i class="calendar icon"></i>2020-2-5
+                                    <div class="right aligned five wide column">
+                                        <a href="#" target="_blank" class="ui blue basic label m-padded-tiny" th:text="${blog.type.name}">认知升级</a>
                                     </div>
-                                    <div class="item">
-                                      <i class="eye icon"></i>34353
+                                </div>
+                                <div class="row">
+                                    <div class="column">
+                                        <a href="#" th:href="@{/tag/{id}(id=${tag.id})}" class="ui basic left pointing label m-padded-tiny m-text-thin" th:classappend="${tag.id == activeTagId} ? 'blue'" th:each="tag : ${blog.tags}">
+                                            <span  th:text="${tag.name}"></span></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="right aligned five wide column">
-                                <a href="#" target="_blank" class="ui blue basic label m-padded-tiny">认知升级</a>
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="column">
-                                <a href="#" target="_blank" class="ui basic blue left pointing label m-padded-tiny m-text-thin">
-                                    方法论</a>
-                            </div>
+                        <div class="wide five column">
+                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank"><img src="../static/image/cartoon1.jpg" th:src="@{${blog.firstPicture}}"  class="ui rounded" style="height:180px;width:200px;">
+                            </a>
                         </div>
                     </div>
-                    <div class="wide five column">
-                        <a href="#" target="_blank"><img src="../static/image/藤原千花.jpg" th:src="@{/image/藤原千花.jpg}" class="ui rounded" style="height:180px;width:200px;">
-                       </a>
+                </div>
+            </div>
+            <!--bottom-->
+            <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+                <div class="ui middle aligned  two column grid">
+                    <div class="column">
+                        <a href="#" th:href="@{/tag(page=${page.number}-1)}" th:unless="${page.first}" class="ui green basic mini button">上一页</a>
+                    </div>
+                    <div class="right aligned column">
+                        <a href="#" th:href="@{/tag(page=${page.number}+1)}" th:unless="${page.last}" class="ui green basic mini button">下一页</a>
                     </div>
                 </div>
             </div>

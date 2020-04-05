@@ -4,6 +4,7 @@ import com.huni.NotFoundException;
 import com.huni.dao.BlogDao;
 import com.huni.entity.Blog;
 import com.huni.entity.Type;
+import com.huni.util.MarkdownUtils;
 import com.huni.util.MyBeanUtils;
 import com.huni.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -16,13 +17,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -63,6 +59,17 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Page<Blog> selectBlog(Pageable pageable, Long tagId) {
+        return blogDao.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery cq, CriteriaBuilder cb) {
+                  Join join = root.join("tags");
+                  return cb.equal(join.get("id"),tagId);
+            }
+        },pageable);
+    }
+
+    @Override
     public Page<Blog> selectBlog(Pageable pageable) {
         return  blogDao.findAll(pageable);
     }
@@ -85,6 +92,17 @@ public class BlogServiceImpl implements BlogService {
         }
           return blogDao.save(blog);
     }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogDao.findGroupYear();
+        Map<String,List<Blog>> map = new HashMap<>();
+        for (String year : years) {
+             map.put(year,blogDao.findByYear(year));
+        }
+        return map;
+    }
+
     @Transactional
     @Override
     public Blog updateBlog(Long id, Blog blog) {
@@ -108,5 +126,24 @@ public class BlogServiceImpl implements BlogService {
         Pageable pageable = new PageRequest(0,size,sort);
         List<Blog> ttt=blogDao.findTop(pageable);
         return blogDao.findTop(pageable);
+    }
+
+    @Override
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogDao.findOne(id);
+        if(blog == null){
+            throw new NotFoundException("该博客不存在");
+        }
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        blogDao.updateView(id);
+        return b;
+    }
+
+    @Override
+    public Long countBlog() {
+        return blogDao.count();
     }
 }

@@ -41,45 +41,22 @@
                          <h3 class="ui teal header">归档</h3>
                      </div>
                      <div class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-block m-text-thin"> 200 </h2> 篇
+                        共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${blogCount}"> 200 </h2> 篇
                      </div>
                 </div>
             </div>
-             <h3 class="ui center aligned header">2020</h3>
+            <th:block th:each="item : ${archiveMap}">
+             <h3 class="ui center aligned header" th:text="${item.key}">2020</h3>
              <div class="ui fluid vertical menu">
-                 <a href="#" target="_blank" class="item">
+                 <a href="#" target="_blank" class="item" th:href="@{/blog/{id}(id=${blog.id})}" th:each="blog : ${item.value}">
                      <span>
-                        <i class="circle icon mini left blue"></i>健康
-                        <div class="ui basic green left pointing label m-text-thin m-padded-tiny">2020-2-1</div>
+                        <i class="circle icon mini left blue"></i><span th:text="${blog.title}">标题</span>
+                        <div class="ui basic green left pointing label m-text-thin m-padded-tiny" th:text="${#dates.format(blog.createTime,'MMMdd')}">2020-2-1</div>
                     </span>
-                    <div class="ui orange label m-text-thin m-padded-tiny">原创</div>    
+                    <div class="ui orange label m-text-thin m-padded-tiny" th:text="${blog.flag}">原创</div>
                  </a>
-                 <a href="#" target="_blank" class="item">
-                    <span>
-                       <i class="circle icon mini left blue"></i>健康
-                       <div class="ui basic green left pointing label m-text-thin m-padded-tiny">2020-2-1</div>
-                   </span>
-                   <div class="ui orange label m-text-thin m-padded-tiny">原创</div>    
-                </a>      
              </div>
-             <h3 class="ui center aligned header">2020</h3>
-             <div class="ui fluid vertical menu">
-                 <a href="#" target="_blank" class="item">
-                     <span>
-                        <i class="circle icon mini left blue"></i>健康
-                        <div class="ui basic green left pointing label m-text-thin m-padded-tiny">2020-2-1</div>
-                    </span>
-                    <div class="ui orange label m-text-thin m-padded-tiny">原创</div>    
-                 </a>
-                 <a href="#" target="_blank" class="item">
-                    <span>
-                       <i class="circle icon mini left blue"></i>健康
-                       <div class="ui basic green left pointing label m-text-thin m-padded-tiny">2020-2-1</div>
-                   </span>
-                   <div class="ui orange label m-text-thin m-padded-tiny">原创</div>    
-                </a>      
-             </div>
-                         
+            </th:block>
         </div>
      </div>
      <!--底部-->
